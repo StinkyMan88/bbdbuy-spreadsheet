@@ -6,22 +6,24 @@ async function loadProducts() {
       "https://script.google.com/macros/s/AKfycbws9-UFKiodBc6IQm4J9ThzaiSU6zokjIyiW6sinPeb2A4nngqnNQAYoV_Ev0nXKy8V/exec"
     );
 
-    const text = await response.text(); // primero como texto (más seguro)
-    const data = JSON.parse(text);
+    const data = await response.json();
 
-    console.log("API DATA:", data);
+    console.log("BBDBuy data:", data);
 
     container.innerHTML = "";
 
     data.forEach(product => {
       const card = document.createElement("div");
-      card.style.border = "1px solid #ccc";
-      card.style.padding = "10px";
+
+      card.style.border = "1px solid #ddd";
+      card.style.padding = "12px";
       card.style.margin = "10px 0";
+      card.style.borderRadius = "8px";
 
       card.innerHTML = `
         <h3>${product.name}</h3>
-        <p>${product.price}</p>
+        <p><strong>${product.price}</strong></p>
+        <p>${product.category || ""}</p>
         <a href="${product.link}" target="_blank">View item</a>
       `;
 
@@ -29,7 +31,7 @@ async function loadProducts() {
     });
 
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error loading products:", error);
     container.innerHTML = "Error loading products";
   }
 }
