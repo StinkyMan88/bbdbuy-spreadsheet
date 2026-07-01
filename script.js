@@ -6,28 +6,7 @@ async function loadProducts() {
 
     const rows = csv.trim().split("\n");
 
-    const productsDiv = document.getElementById("products");
-
-    for (let i = 1; i < rows.length; i++) {
-        const cols = rows[i].split(",");
-
-        const name = cols[0];
-        const price = cols[1];
-        const link = cols[2];
-        const category = cols[3];
-
-        const card = document.createElement("div");
-
-        card.innerHTML = `
-            <h3>${name}</h3>
-            <p><strong>Price:</strong> ${price}</p>
-            <p><strong>Category:</strong> ${category}</p>
-            <a href="${link}" target="_blank">Open BBDBuy</a>
-            <hr>
-        `;
-
-        productsDiv.appendChild(card);
-    }
+    console.log(rows);
 }
 
 loadProducts();
