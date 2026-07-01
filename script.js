@@ -1,38 +1,24 @@
-const container = document.getElementById("products");
+const url = "https://raw.githubusercontent.com/StinkyMan88/bbdbuy-spreadsheet/refs/heads/main/products.json";
 
 async function loadProducts() {
   try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbws9-UFKiodBc6IQm4J9ThzaiSU6zokjIyiW6sinPeb2A4nngqnNQAYoV_Ev0nXKy8V/exec"
-    );
-
+    const response = await fetch(url);
     const data = await response.json();
 
-    console.log("BBDBuy data:", data);
+    console.log(data);
 
-    container.innerHTML = "";
+    document.getElementById("products").innerHTML = data.map(p => `
+      <div style="border:1px solid #ddd; padding:10px; margin:10px;">
+        <h3>${p.name}</h3>
+        <p>${p.price}</p>
+        <p>${p.category}</p>
+        <a href="${p.link}" target="_blank">View item</a>
+      </div>
+    `).join("");
 
-    data.forEach(product => {
-      const card = document.createElement("div");
-
-      card.style.border = "1px solid #ddd";
-      card.style.padding = "12px";
-      card.style.margin = "10px 0";
-      card.style.borderRadius = "8px";
-
-      card.innerHTML = `
-        <h3>${product.name}</h3>
-        <p><strong>${product.price}</strong></p>
-        <p>${product.category || ""}</p>
-        <a href="${product.link}" target="_blank">View item</a>
-      `;
-
-      container.appendChild(card);
-    });
-
-  } catch (error) {
-    console.error("Error loading products:", error);
-    container.innerHTML = "Error loading products";
+  } catch (err) {
+    console.error(err);
+    document.getElementById("products").innerHTML = "Error loading products";
   }
 }
 
